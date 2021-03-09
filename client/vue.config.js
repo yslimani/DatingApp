@@ -7,8 +7,8 @@ module.exports = {
     host: 'localhost',
     port: 8080,
     https: {
-      key: fs.readFileSync(path.resolve("./certs/server.key")),
-      cert: fs.readFileSync(path.resolve("./certs/server.crt"))
+      key: fs.readFileSync(path.resolve("./ssl/server.key")),
+      cert: fs.readFileSync(path.resolve("./ssl/server.crt"))
     }
   }
 };
