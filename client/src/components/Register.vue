@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-form @submit.prevent="register">
+    <b-form @submit.prevent="register" auto-completion="off">
       <b-form-group>
         <b-form-input
           v-model="model.username"
@@ -46,7 +46,11 @@ export default {
   methods: {
     ...mapActions({ handleRegister: 'account/register' }),
     register () {
-      this.handleRegister(this.model).then(this.cancel())
+      this.handleRegister(this.model).then(() => {
+        this.cancel()
+      }).catch(error => {
+        console.log(error.response.data)
+      })
     },
     cancel () {
       this.$emit('cancelRegister', false)

@@ -3,15 +3,17 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import axios from 'axios'
+import VueCase from 'vue-case'
 
 // Import Bootstrap an BootstrapVue CSS files (order is important)
 import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import '../node_modules/bootswatch/dist/united/bootstrap.min.css'
 
 import VeeValidate from 'vee-validate'
-
-import VueResource from 'vue-resource'
+import Notifications from 'vue-notification'
+import velocity from 'velocity-animate'
 
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 
@@ -32,12 +34,15 @@ Vue.use(BootstrapVue)
 // Optionally install the BootstrapVue icon components plugin
 Vue.use(IconsPlugin)
 
-Vue.use(VueResource)
+Vue.use(VueCase)
+
 axios.defaults.baseURL = 'https://localhost:5001/api/'
 
 Vue.config.productionTip = false
 
 Vue.use(VeeValidate)
+Vue.use(Notifications, { velocity })
+
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 require('@/store/subscriber')
@@ -47,5 +52,8 @@ store.dispatch('account/attempt', JSON.parse(localStorage.getItem('user')))
 new Vue({
   router,
   store,
+  components: {
+    Notifications
+  },
   render: h => h(App)
 }).$mount('#app')

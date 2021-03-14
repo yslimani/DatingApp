@@ -1,17 +1,18 @@
 <template>
 <div>
-  <b-navbar toggleable="lg" type="dark" variant="dark">
+  <b-navbar toggleable="lg" type="dark" variant="primary">
     <div class="container">
-      <b-navbar-brand href="#">Dating App</b-navbar-brand>
+      <b-navbar-brand to="/">Dating App</b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
-          <b-nav-item href="#">Matches</b-nav-item>
-          <b-nav-item href="#">Lists</b-nav-item>
-          <b-nav-item href="#">Messages</b-nav-item>
-          <b-nav-item href="#" v-if="loggedIn" @click="logout">Logout</b-nav-item>
+          <template v-if="loggedIn">
+            <b-nav-item to="/members" active-class="active">Matches</b-nav-item>
+            <b-nav-item to="/lists" active-class="active">Lists</b-nav-item>
+            <b-nav-item to="/messages" active-class="active">Messages</b-nav-item>
+          </template>
         </b-navbar-nav>
 
         <!-- Right aligned nav items -->
@@ -19,13 +20,13 @@
           <b-nav-form v-if="!loggedIn" @submit.prevent="login">
             <b-form-input size="sm" class="mr-sm-2" v-model="model.username" placeholder="Username"></b-form-input>
             <b-form-input size="sm" class="mr-sm-2"  type="password" v-model="model.password" placeholder="Password"></b-form-input>
-            <b-button size="sm" class="my-2 my-sm-0" type="submit">Login</b-button>
+            <b-button size="sm" class="my-2 my-sm-0" type="submit" variant="success">Login</b-button>
           </b-nav-form>
 
           <b-nav-item-dropdown right v-if="loggedIn">
             <!-- Using 'button-content' slot -->
             <template #button-content>
-              <em>Welcome user</em>
+              <em>Welcome {{ user.username | titleCase }}</em>
             </template>
             <b-dropdown-item href="#">Edit Profile</b-dropdown-item>
             <b-dropdown-divider></b-dropdown-divider>
@@ -50,14 +51,20 @@ export default {
   methods: {
     ...mapActions({ handleLogin: 'account/login', handleLogout: 'account/logout' }),
     login () {
-      this.handleLogin(this.model)
+      this.handleLogin(this.model).then(() => {
+        this.$router.replace('/members')
+      }).catch(error => {
+        this.$notify({ group: 'auth', title: '<b>Authorization</b>', type: 'error', text: error.response.data })
+      })
     },
     logout () {
-      this.handleLogout()
+      this.handleLogout().then(() => {
+        if (this.$route.path !== '/') this.$router.replace('/')
+      })
     }
   },
   computed: {
-    ...mapGetters({ loggedIn: 'account/loggedIn' })
+    ...mapGetters({ loggedIn: 'account/loggedIn', user: 'account/user' })
   }
 }
 </script>

@@ -2,6 +2,10 @@
   <div id="app">
     <navbar />
     <router-view/>
+    <notifications group="auth"
+                   position="bottom right"
+                   animation-type="velocity"
+                   :speed="500" />
   </div>
 </template>
 <script>
