@@ -1,0 +1,9 @@
+{
+  "prettier.requireConfig": true,
+  "js/ts.implicitProjectConfig.experimentalDecorators": true,
+  "javascript.format.semicolons": "remove",
+  "js/ts.implicitProjectConfig.strictNullChecks": true,
+  "javascript.format.insertSpaceAfterConstructor": true,
+  "vetur.format.defaultFormatter.js": "vscode-typescript",
+  "editor.formatOnSave": true
+}

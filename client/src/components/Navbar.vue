@@ -1,6 +1,6 @@
 <template>
 <div>
-  <b-navbar toggleable="lg" type="dark" variant="primary">
+  <b-navbar toggleable="lg" type="dark" variant="primary" class="mb-4">
     <div class="container">
       <b-navbar-brand to="/">Dating App</b-navbar-brand>
 
@@ -13,6 +13,7 @@
             <b-nav-item to="/lists" active-class="active">Lists</b-nav-item>
             <b-nav-item to="/messages" active-class="active">Messages</b-nav-item>
           </template>
+          <b-nav-item to="/errors" active-class="active">Errors</b-nav-item>
         </b-navbar-nav>
 
         <!-- Right aligned nav items -->
@@ -53,9 +54,10 @@ export default {
     login () {
       this.handleLogin(this.model).then(() => {
         this.$router.replace('/members')
-      }).catch(error => {
-        this.$notify({ group: 'auth', title: '<b>Authorization</b>', type: 'error', text: error.response.data })
-      })
+      }).catch(() => {})
+      // .catch(error => {
+      //   this.$notify({ group: 'auth', title: '<b>Authorization</b>', type: 'error', text: error.response.data })
+      // })
     },
     logout () {
       this.handleLogout().then(() => {

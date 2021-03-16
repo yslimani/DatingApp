@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-form @submit.prevent="register" auto-completion="off">
+    <b-form @submit.prevent="register" auto-completion="off" ref="formContainer">
       <b-form-group>
         <b-form-input
           v-model="model.username"
@@ -48,8 +48,6 @@ export default {
     register () {
       this.handleRegister(this.model).then(() => {
         this.cancel()
-      }).catch(error => {
-        console.log(error.response.data)
       })
     },
     cancel () {

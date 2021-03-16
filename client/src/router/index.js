@@ -5,6 +5,9 @@ import Lists from '@/components/Lists'
 import MemberList from '@/components/MemberList'
 import MemberDetail from '@/components/MemberDetail'
 import Messages from '@/components/Messages'
+import Errors from '@/components/errors/Errors'
+import NotFound from '@/components/errors/NotFound'
+import ServerError from '@/components/errors/ServerError'
 import store from '../store'
 
 Vue.use(VueRouter)
@@ -46,8 +49,23 @@ const routes = [
     component: Messages
   },
   {
+    path: '/errors',
+    name: 'Errors',
+    component: Errors
+  },
+  {
+    path: '/not-found',
+    name: 'NotFound',
+    component: NotFound
+  },
+  {
+    path: '/server-error',
+    name: 'ServerError',
+    component: ServerError
+  },
+  {
     path: '*',
-    redirect: '/'
+    redirect: '/not-found'
   }
 ]
 

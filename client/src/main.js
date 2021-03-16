@@ -4,6 +4,9 @@ import router from './router'
 import store from './store'
 import axios from 'axios'
 import VueCase from 'vue-case'
+import Loading from 'vue-loading-overlay'
+import 'vue-loading-overlay/dist/vue-loading.css'
+import VueSwal from 'vue-swal'
 
 // Import Bootstrap an BootstrapVue CSS files (order is important)
 import 'bootstrap'
@@ -42,6 +45,8 @@ Vue.config.productionTip = false
 
 Vue.use(VeeValidate)
 Vue.use(Notifications, { velocity })
+Vue.use(Loading)
+Vue.use(VueSwal)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 

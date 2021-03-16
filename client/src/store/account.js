@@ -1,4 +1,4 @@
-import axios from 'axios'
+import httpClient from './httpClient'
 
 export default ({
   namespaced: true,
@@ -11,6 +11,9 @@ export default ({
     },
     user (state) {
       return state.currentUser
+    },
+    token (state) {
+      return state.currentUser.token
     }
   },
   mutations: {
@@ -20,11 +23,11 @@ export default ({
   },
   actions: {
     async login ({ dispatch }, model) {
-      const response = await axios.post('account/login/', model)
+      const response = await httpClient.post('account/login/', model)
       dispatch('attempt', response.data)
     },
     async register ({ dispatch }, model) {
-      const response = await axios.post('account/register/', model)
+      const response = await httpClient.post('account/register/', model)
       dispatch('attempt', response.data)
     },
     attempt ({ commit }, user) {
