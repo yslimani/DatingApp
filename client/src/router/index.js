@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import Lists from '@/components/Lists'
 import MemberList from '@/components/MemberList'
 import MemberDetail from '@/components/MemberDetail'
+import MemberEdit from '@/components/MemberEdit'
 import Messages from '@/components/Messages'
 import Errors from '@/components/errors/Errors'
 import NotFound from '@/components/errors/NotFound'
@@ -23,7 +24,7 @@ const routes = [
     name: 'MemberList',
     component: MemberList,
     beforeRouteEnter: (to, from, next) => {
-      const loggedIn = store.getters['account/loggedIn']
+      const loggedIn = store.getters.loggedIn
       if (loggedIn) {
         next()
       } else {
@@ -34,9 +35,14 @@ const routes = [
     }
   },
   {
-    path: '/members/:id',
+    path: '/members/:username',
     name: 'MemberDetail',
     component: MemberDetail
+  },
+  {
+    path: '/member/edit',
+    name: 'MemberEdit',
+    component: MemberEdit
   },
   {
     path: '/lists',

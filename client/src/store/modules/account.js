@@ -1,21 +1,29 @@
-import httpClient from './httpClient'
+import httpClient from '../httpClient'
+
+const getters = {
+  loggedIn: (state) => !!state.currentUser,
+  user: (state) => state.currentUser,
+  token: (state) => state.currentUser.token
+}
 
 export default ({
   namespaced: true,
   state: {
     currentUser: null
   },
-  getters: {
-    loggedIn (state) {
-      return !!state.currentUser
-    },
-    user (state) {
-      return state.currentUser
-    },
-    token (state) {
-      return state.currentUser.token
-    }
-  },
+  getters,
+  // getters: {
+  //   loggedIn (state) {
+  //     return !!state.currentUser
+  //   },
+  //   user (state) {
+  //     return state.currentUser
+  //   },
+  //   token (state) {
+  //     return state.currentUser.token
+  //   },
+  //   isAuthenticated: (state) => !!state.currentUser
+  // },
   mutations: {
     setCurrentUser (state, user) {
       state.currentUser = user

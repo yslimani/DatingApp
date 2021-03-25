@@ -3,10 +3,14 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import axios from 'axios'
+import './library/icons.js'
+import './library/lingallery.js'
 import VueCase from 'vue-case'
-import Loading from 'vue-loading-overlay'
-import 'vue-loading-overlay/dist/vue-loading.css'
 import VueSwal from 'vue-swal'
+
+import { ValidationProvider } from 'vee-validate/dist/vee-validate.full.esm'
+import { ValidationObserver } from 'vee-validate'
+import { ReactiveRefs } from 'vue-reactive-refs'
 
 // Import Bootstrap an BootstrapVue CSS files (order is important)
 import 'bootstrap'
@@ -14,23 +18,10 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import '../node_modules/bootswatch/dist/united/bootstrap.min.css'
 
-import VeeValidate from 'vee-validate'
 import Notifications from 'vue-notification'
 import velocity from 'velocity-animate'
 
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
-
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import {
-  faHome,
-  faUser,
-  faUserPlus,
-  faSignInAlt,
-  faSignOutAlt
-} from '@fortawesome/free-solid-svg-icons'
-
-library.add(faHome, faUser, faUserPlus, faSignInAlt, faSignOutAlt)
 
 // Make BootstrapVue available throughout your project
 Vue.use(BootstrapVue)
@@ -39,20 +30,20 @@ Vue.use(IconsPlugin)
 
 Vue.use(VueCase)
 
+Vue.component('ValidationProvider', ValidationProvider)
+Vue.component('ValidationObserver', ValidationObserver)
+Vue.use(ReactiveRefs)
+
 axios.defaults.baseURL = 'https://localhost:5001/api/'
 
 Vue.config.productionTip = false
 
-Vue.use(VeeValidate)
 Vue.use(Notifications, { velocity })
-Vue.use(Loading)
 Vue.use(VueSwal)
-
-Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 require('@/store/subscriber')
 
-store.dispatch('account/attempt', JSON.parse(localStorage.getItem('user')))
+store.commit('setCurrentUser', JSON.parse(localStorage.getItem('user')))
 
 new Vue({
   router,

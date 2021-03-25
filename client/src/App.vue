@@ -1,19 +1,38 @@
 <template>
   <div id="app">
     <navbar />
-    <router-view/>
-    <notifications group="auth"
-                   position="bottom right"
-                   animation-type="velocity"
-                   :speed="500" />
+    <loader :isLoading="loading" />
+    <div class="container">
+      <router-view />
+      <notifications
+        group="global"
+        position="bottom right"
+        animation-type="velocity"
+        :speed="500"
+      />
+      <notifications
+        group="auth"
+        position="bottom right"
+        animation-type="velocity"
+        :speed="500"
+      />
+    </div>
   </div>
 </template>
 <script>
 import Navbar from '@/components/Navbar'
+import Loader from '@/components/Loader'
+
 // import axios from 'axios'
 export default {
   components: {
-    Navbar
+    Navbar,
+    Loader
+  },
+  computed: {
+    loading () {
+      return this.$store.getters.loading
+    }
   },
   created () {
     // let loader
@@ -68,6 +87,11 @@ export default {
   padding: 30px;
 }
 
+.active-nav {
+  border-bottom: 4px solid #e95420 !important;
+  position: relative;
+}
+
 /* #nav a {
   font-weight: bold;
   color: #2c3e50;
@@ -76,4 +100,8 @@ export default {
 #nav a.router-link-exact-active {
   color: #42b983;
 } */
+
+.lingallery > figure > img {
+  width: 500px !important;
+}
 </style>

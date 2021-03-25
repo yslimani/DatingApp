@@ -2,7 +2,7 @@ import store from '@/store'
 
 store.subscribe((mutation) => {
   switch (mutation.type) {
-    case 'account/setCurrentUser':
+    case 'setCurrentUser':
       if (mutation.payload) {
         // console.log(mutation.payload)
         localStorage.setItem('user', JSON.stringify(mutation.payload))

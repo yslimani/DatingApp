@@ -1,6 +1,7 @@
 import Vue from 'vue'
-import router from '@/router'
 import axios from 'axios'
+import router from '../router'
+import store from '../store'
 
 const httpClient = axios.create({
   baseURL: 'https://localhost:5001/api/', // process.env.VUE_APP_BASE_URL,
@@ -8,23 +9,32 @@ const httpClient = axios.create({
   headers: {
     'Content-Type': 'application/json'
     // anything you want to add to the headers
-  }
+  },
+  showLoader: true
 })
 
-const getAuthToken = () => localStorage.getItem('token')
+const getAuthToken = () => JSON.parse(localStorage.getItem('user')).token
 
-const authInterceptor = (config) => {
-  config.headers.Authorization = getAuthToken()
+const requestInterceptor = (config) => {
+  config.headers.Authorization = 'Bearer ' + getAuthToken()
+  if (config.showLoader) {
+    store.dispatch('pending')
+  }
   return config
 }
 
-httpClient.interceptors.request.use(authInterceptor)
+httpClient.interceptors.request.use(requestInterceptor)
 
 // interceptor to catch errors
 const errorInterceptor = error => {
+  // check if loader is shown
+  if (error.config.showLoader) {
+    store.dispatch('done')
+  }
+
   // check if it's a server error
   if (!error.response) {
-    this.$notify.warn('Network/Server error')
+    Vue.notify('Network/Server error')
     return Promise.reject(error)
   }
   // console.log(error.response)
@@ -69,6 +79,10 @@ const errorInterceptor = error => {
 
 // Interceptor for responses
 const responseInterceptor = response => {
+  if (response.config.showLoader) {
+    store.dispatch('done')
+  }
+
   switch (response.status) {
     case 200:
       // yay!
